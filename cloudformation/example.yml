@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: EC2 Instance
+Resources:
+    ec2AppInstance:
+        Type: AWS::EC2::Instance
+        Properties:
+            AvailabilityZone:
+                Fn::Select:
+                    - "0"
+                    - Fn::GetAZs: !Ref AWS::Region
+            BlockDeviceMappings:
+                -
+                    DeviceName: /dev/sda1
+                    Ebs:
+                        DeleteOnTermination: false
+                        VolumeSize: 20
+                        VolumeType: gp2
+            DisableApiTermination: true
+            ImageId: ami-cd0f5cb6
+            InstanceInitiatedShutdownBehavior: stop
+            InstanceType: t2.micro
+            Monitoring: false
+            NetworkInterfaces:
+                -
+                    AssociatePublicIpAddress: true
+                    DeleteOnTermination: true
+                    Description: Main Network interface for LessonLync Database Instance
+                    DeviceIndex: 0
+                    GroupSet:
+                        - !ImportValue sgWebDMZ
+                    SubnetId: !ImportValue subnetPublicAppServers1
+            SourceDestCheck: true
+            Tenancy: default
+            Tags:
+                -
+                    Key: Name
+                    Value: App Server
+Outputs:
+    ec2AppInstance:
+        Description: Database Instance Logical ID
+        Value: !Ref ec2AppInstance
+        Export:
+            Name: ec2AppInstance
+    ec2AppInstancePrivateIp:
+        Description: App Instance Private IP
+        Value: !GetAtt ec2AppInstance.PrivateIp
+        Export:
+            Name: ec2AppInstancePrivateIp
+    ec2AppInstancePublicIp:
+        Description: App Instance Public IP
+        Value: !GetAtt ec2AppInstance.PublicIp
+        Export:
+            Name: ec2AppInstancePublicIp
