@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: EC2 Instance
+Description: EC2 Instances
 Resources:
     ec2AppInstance:
         Type: AWS::EC2::Instance
@@ -24,7 +24,7 @@ Resources:
                 -
                     AssociatePublicIpAddress: true
                     DeleteOnTermination: true
-                    Description: Main Network interface for LessonLync Database Instance
+                    Description: Main Network Interface
                     DeviceIndex: 0
                     GroupSet:
                         - !ImportValue sgWebDMZ
