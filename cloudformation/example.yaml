@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: S3 Buckets
+Resources:
+    ExampleBucket:
+        Type: AWS::S3::Bucket
+        Properties:
+            AccessControl: Public
+            VersioningConfiguration:
+                Status: Suspended
+            Tags:
+                -
+                    Key: Name
+                    Value: Example Bucket
+    S3Policy:
+        Type: AWS::S3::BucketPolicy
+        Properties:
+            Bucket: !Ref ExampleBucket
+            PolicyDocument:
+                Version: "2008-10-17"
+                Statement:
+                    -
+                        Sid: AllowPublicRead
+                        Effect: Allow
+                        Principal:
+                            AWS: "*"
+                        Action: s3:GetObject
+                        Resource:
+                            Fn::Join:
+                                - ""
+                                -
+                                    - "arn:aws:s3:::"
+                                    - !Ref ExampleBucket
+                                    - "/*"
+Outputs:
+    ExampleBucket:
+        Description: Example bucket export
+        Value: !Ref ExampleBucket
+        Export:
+            Name: ExampleBucket
+    ExampleBucketArn:
+        Description: ARN Example bucket
+        Value: !GetAtt ExampleBucket.Arn
+        Export:
+            Name: ExampleBucketArn
