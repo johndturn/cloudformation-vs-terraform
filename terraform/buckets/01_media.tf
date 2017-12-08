@@ -32,3 +32,7 @@ resource "aws_s3_bucket_policy" "media_access" {
 }
 POLICY
 }
+
+output "url" {
+
+}
