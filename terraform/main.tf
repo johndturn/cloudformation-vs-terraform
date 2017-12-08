@@ -7,12 +7,13 @@ provider "aws" {
 module "buckets" {
   source = "./buckets"
 
-  org = "${var.org}"
+  org       = "${var.org}"
   org_short = "${var.org_short}"
+  domain    = "${var.domain}"
 }
 
-# ///////////////////////////////////////////////////
-# ////////////////// OUTPUTS
-# output "bucket-url" {
-#   value = "${module.buckets.url}"
-# }
+///////////////////////////////////////////////////
+////////////////// OUTPUTS
+output "bucket-url" {
+  value = "${module.buckets.url}"
+}

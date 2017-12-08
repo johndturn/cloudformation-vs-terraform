@@ -11,5 +11,5 @@ variable "org_short" {
 }
 
 variable "domain" {
-  default = "https://www.parivedasolutions.com"
+  default = "parivedasolutions.com"
 }
