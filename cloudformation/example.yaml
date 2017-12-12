@@ -1,5 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: S3 Buckets
+Parameters:
+    BucketName:
+        Type: String
+        Default: Example Bucket
+        Description: Enter bucket name. Default is Example Bucket
 Resources:
     ExampleBucket:
         Type: AWS::S3::Bucket
@@ -10,7 +15,7 @@ Resources:
             Tags:
                 -
                     Key: Name
-                    Value: Example Bucket
+                    Value: !Ref BucketName
     S3Policy:
         Type: AWS::S3::BucketPolicy
         Properties:
