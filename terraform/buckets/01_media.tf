@@ -2,6 +2,14 @@ resource "aws_s3_bucket" "media" {
   acl    = "private"
   bucket = "${var.org_short}-media-bucket"
 
+  provisioner "local-exec" {
+    command = "echo first"
+  }
+
+  provisioner "local-exec" {
+    command = "echo second"
+  }
+
   tags {
     "name" = "${var.org} Media"
   }
