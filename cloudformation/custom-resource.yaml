@@ -1,0 +1,33 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: S3 Buckets
+Parameters:
+    LambdaIamRole:
+        Type: String
+Resources:
+  LambdaHelloWorld:
+        Type: AWS::Lambda::Function
+        Properties:
+            Handler: index.handler
+            Timeout: ""
+            Role: !Ref LambdaIamRole
+            Code:
+                ZipFile:
+                    Fn::Join:
+                        - "\n"
+                        -
+                            - "import cfnresponse",
+                            - "",
+                            - "def handler(event, context):",
+                            - "",
+                            - "    id = event['ResourceProperties']['id']",
+                            - "    new_cluster_id = event['ResourceProperties']['new_cluster_id']",
+                            - "    response = { 'message': 'Hello World'}",
+                            - "    cfnresponse.send(event, context, cfnresponse.SUCCESS, response)",
+                            - ""
+            Runtime: python2.7
+    HelloWorld:
+        Type: Custom::RedshiftClusterId
+        DependsOn: LambdaClusterName
+        Properties:
+            ServiceToken: !GetAtt ["LambdaHelloWorld", "Arn"]
+            id: "Test ID"
